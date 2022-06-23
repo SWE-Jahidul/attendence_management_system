@@ -1,6 +1,11 @@
 const express = require("express");
 const connectDB = require("./db");
+
+const jwt = require("jsonwebtoken");
+
 const User = require("./models/User");
+const authentic = require('./middleware/authenticate')
+
 const bcrypt = require("bcrypt");
 
 const app = express();
@@ -18,7 +23,7 @@ app.post("/register", async (req, res, next) => {
   -- req Cookies
  */
 
-  const { name, email, password } = req.body;
+  const { name, email, password, accountStatus } = req.body;
   if (!name || !email || !password) {
     return res.status(400).json({ message: "Invalid Data" });
   }
@@ -59,10 +64,29 @@ app.post("/login", async (req, res, next) => {
     }
 
     delete user._doc.password;
-    return res.status(200).json({ message: "Login Sucessefully !", user });
+
+    const token = jwt.sign(user._doc, "secret-key", {
+      expiresIn: "30s",
+    });
+
+    return res.status(200).json({ message: "Login Sucessefully !", token });
   } catch (e) {
     next(e);
   }
+});
+
+// How to Execute private Route
+
+app.get("/private", authentic ,  async  (req, res) => {
+
+  console.log("I am The valid user ", req.user);
+  return res.status(200).json({ messages: "I am a private Route " });
+});
+
+// How to Execute public route
+
+app.get("/public", (req, res) => {
+  return res.status(200).json({ messages: "I am a public Route " });
 });
 
 app.get("/", (_, res) => {
