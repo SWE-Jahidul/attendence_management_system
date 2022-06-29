@@ -9,7 +9,6 @@ const registerController = async (req, res, next) => {
     -- req Header 
     -- req Cookies
    */
-
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
     return res.status(400).json({ message: "Invalid Data" });
@@ -25,6 +24,7 @@ const registerController = async (req, res, next) => {
 
 const loginContoller = async (req, res, next) => {
   const { email, password } = req.body;
+  console.log('---', email);
   try {
     const token = await loginService({ email, password });
     return res.status(200).json({ message: "Login Sucessefully !", token });

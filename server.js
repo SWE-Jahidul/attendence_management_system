@@ -1,15 +1,14 @@
 const express = require("express");
 const connectDB = require("./db");
-const authentic = require('./middleware/authenticate')
-const routes = require('./routes');
+const authentic = require("./middleware/authenticate");
+const routes = require("./routes");
 const app = express();
 app.use(express.json());
-app.use(routes)
+app.use(routes);
 
 // How to Execute private Route
 
-app.get("/private", authentic ,  async  (req, res) => {
-
+app.get("/private", authentic, async (req, res) => {
   console.log("I am The valid user ", req.user);
   return res.status(200).json({ messages: "I am a private Route " });
 });
@@ -30,8 +29,9 @@ app.get("/", (_, res) => {
 
 // Golbal Error Handleing
 app.use((err, req, res, next) => {
-  console.log(err);
-  res.status(500).json({ message: "Server Error Occurred " });
+  const message = err.message ? err.message : "Server Error Occurred";
+  const status = err.status ? err.status : 500;
+  res.status(status).json({ message });
 });
 
 connectDB("mongodb://localhost:27017/attendence-db")
