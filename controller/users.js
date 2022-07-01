@@ -5,6 +5,16 @@ const User = require('../models/User');
 
 
 const getUsers = (req,res,next) =>{
+    /**
+     * find , filter, sort , pagination, select 
+     * 
+     */
+    try{
+
+    }
+    catch(e){
+        next()
+    }
 
 }
 
