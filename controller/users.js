@@ -1,15 +1,19 @@
 const User = require('../models/User');
 
+const userServices = require('../service/user')
 
 
-
-
-const getUsers = (req,res,next) =>{
+const getUsers = async (req,res,next) =>{
     /**
      * find , filter, sort , pagination, select 
      * 
      */
     try{
+
+        const users = await userServices.findUsers();
+        return res.status(200).json(users);
+
+
 
     }
     catch(e){
