@@ -1,12 +1,12 @@
 const router = require('express').Router();
 
+
+const userController  = require('../controller/users')
 /**
  * Get user by id or email 
  */
 
-router.get('/:userId', () =>{
-
-});
+router.get('/:userId',userController.getUserById );
 
 /**
  * Update User by Id
@@ -56,17 +56,14 @@ router.get('/:userId', () =>{
 
 
 
-router.get('/' , () =>{
-
-});
+router.get('/' ,userController.getUsers);
 
 
+//
 /**
  * Create a new User
 */
-router.post('/' , () =>{
-
-});
+router.post('/', userController.postUser);
 
 
 

@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { findUserByProperty, createNewUser } = require("./user");
 const error = require("../utlis/error");
 
-const registerService = async ({ name, email, password }) => {
+const registerService = async ({ name, email, password , roles, accountStatus}) => {
   console.log("+++", email);
   let user = await findUserByProperty("email", email);
 
@@ -13,7 +13,7 @@ const registerService = async ({ name, email, password }) => {
   }
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
-  return createNewUser({ name, email, password: hash });
+  return createNewUser({ name, email, password: hash, roles, accountStatus });
 };
 
 const loginService = async ({ email, password }) => {
